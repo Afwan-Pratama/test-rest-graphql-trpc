@@ -1,0 +1,14 @@
+export { AggregateSupplierArgs } from "./AggregateSupplierArgs";
+export { CreateManySupplierArgs } from "./CreateManySupplierArgs";
+export { CreateOneSupplierArgs } from "./CreateOneSupplierArgs";
+export { DeleteManySupplierArgs } from "./DeleteManySupplierArgs";
+export { DeleteOneSupplierArgs } from "./DeleteOneSupplierArgs";
+export { FindFirstSupplierArgs } from "./FindFirstSupplierArgs";
+export { FindFirstSupplierOrThrowArgs } from "./FindFirstSupplierOrThrowArgs";
+export { FindManySupplierArgs } from "./FindManySupplierArgs";
+export { FindUniqueSupplierArgs } from "./FindUniqueSupplierArgs";
+export { FindUniqueSupplierOrThrowArgs } from "./FindUniqueSupplierOrThrowArgs";
+export { GroupBySupplierArgs } from "./GroupBySupplierArgs";
+export { UpdateManySupplierArgs } from "./UpdateManySupplierArgs";
+export { UpdateOneSupplierArgs } from "./UpdateOneSupplierArgs";
+export { UpsertOneSupplierArgs } from "./UpsertOneSupplierArgs";

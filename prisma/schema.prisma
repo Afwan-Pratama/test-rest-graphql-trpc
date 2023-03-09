@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator typegraphql {
+  provider = "typegraphql-prisma"
+  output   = "../src/graphql/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Supplier {
+  id          String    @id @unique @default(uuid())
+  name        String
+  description String
+  address     String
+  product     Product[]
+}
+
+model Product {
+  id          String   @id @unique @default(uuid())
+  name        String
+  material    String
+  description String
+  imageUrl    String
+  price       String
+  supplierId  String
+  supplier    Supplier @relation(fields: [supplierId], references: [id])
+  createdAt   DateTime @default(now())
+}
