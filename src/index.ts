@@ -1,5 +1,8 @@
+//express
 import express from "express";
 import http from "http";
+//rest
+import { restRouter } from "./rest";
 //trpc
 import * as trpcExpress from "@trpc/server/adapters/express";
 import { productRouter } from "./trpc/router/products";
@@ -19,6 +22,8 @@ const app = express();
 const httpServer = http.createServer(app);
 
 async function main() {
+  app.use("/api", restRouter);
+
   const appRouter = trpcRouter({
     product: productRouter,
   });
