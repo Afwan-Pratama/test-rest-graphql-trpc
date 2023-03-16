@@ -12,7 +12,7 @@ export class SupplierRelationsResolver {
   })
   async product(@TypeGraphQL.Root() supplier: Supplier, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo, @TypeGraphQL.Args() args: SupplierProductArgs): Promise<Product[]> {
     const { _count } = transformInfoIntoPrismaArgs(info);
-    return getPrismaFromContext(ctx).supplier.findUnique({
+    return getPrismaFromContext(ctx).supplier.findUniqueOrThrow({
       where: {
         id: supplier.id,
       },

@@ -44,13 +44,13 @@ export class ProductOrderByWithRelationInput {
   })
   supplierId?: "asc" | "desc" | undefined;
 
-  @TypeGraphQL.Field(_type => SupplierOrderByWithRelationInput, {
-    nullable: true
-  })
-  supplier?: SupplierOrderByWithRelationInput | undefined;
-
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
   createdAt?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => SupplierOrderByWithRelationInput, {
+    nullable: true
+  })
+  supplier?: SupplierOrderByWithRelationInput | undefined;
 }
