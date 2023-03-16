@@ -92,7 +92,7 @@ type ModelResolverActionNames<
 export type ResolverActionsConfig<
   TModel extends ResolverModelNames
 > = Partial<Record<ModelResolverActionNames<TModel>, MethodDecorator[] | MethodDecoratorOverrideFn>>
-  & { _all: MethodDecorator[] };
+  & { _all?: MethodDecorator[] };
 
 export type ResolversEnhanceMap = {
   [TModel in ResolverModelNames]?: ResolverActionsConfig<TModel>;
@@ -181,7 +181,7 @@ type RelationResolverActionNames<
 
 export type RelationResolverActionsConfig<TModel extends RelationResolverModelNames>
   = Partial<Record<RelationResolverActionNames<TModel>, MethodDecorator[] | MethodDecoratorOverrideFn>>
-  & { "_all": MethodDecorator[] };
+  & { _all?: MethodDecorator[] };
 
 export type RelationResolversEnhanceMap = {
   [TModel in RelationResolverModelNames]?: RelationResolverActionsConfig<TModel>;
@@ -216,11 +216,11 @@ type TypeConfig = {
   fields?: FieldsConfig;
 };
 
-type PropertyDecoratorOverrideFn = (decorators: PropertyDecorator[]) => PropertyDecorator[];
+export type PropertyDecoratorOverrideFn = (decorators: PropertyDecorator[]) => PropertyDecorator[];
 
 type FieldsConfig<TTypeKeys extends string = string> = Partial<
-  Record<TTypeKeys | "_all", PropertyDecorator[]>
->;
+  Record<TTypeKeys, PropertyDecorator[] | PropertyDecoratorOverrideFn>
+> & { _all?: PropertyDecorator[] };
 
 function applyTypeClassEnhanceConfig<
   TEnhanceConfig extends TypeConfig,
@@ -349,8 +349,8 @@ const inputsInfo = {
   SupplierWhereUniqueInput: ["id"],
   SupplierOrderByWithAggregationInput: ["id", "name", "description", "address", "_count", "_max", "_min"],
   SupplierScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "id", "name", "description", "address"],
-  ProductWhereInput: ["AND", "OR", "NOT", "id", "name", "material", "description", "imageUrl", "price", "supplierId", "supplier", "createdAt"],
-  ProductOrderByWithRelationInput: ["id", "name", "material", "description", "imageUrl", "price", "supplierId", "supplier", "createdAt"],
+  ProductWhereInput: ["AND", "OR", "NOT", "id", "name", "material", "description", "imageUrl", "price", "supplierId", "createdAt", "supplier"],
+  ProductOrderByWithRelationInput: ["id", "name", "material", "description", "imageUrl", "price", "supplierId", "createdAt", "supplier"],
   ProductWhereUniqueInput: ["id"],
   ProductOrderByWithAggregationInput: ["id", "name", "material", "description", "imageUrl", "price", "supplierId", "createdAt", "_count", "_max", "_min"],
   ProductScalarWhereWithAggregatesInput: ["AND", "OR", "NOT", "id", "name", "material", "description", "imageUrl", "price", "supplierId", "createdAt"],
@@ -358,8 +358,8 @@ const inputsInfo = {
   SupplierUpdateInput: ["id", "name", "description", "address", "product"],
   SupplierCreateManyInput: ["id", "name", "description", "address"],
   SupplierUpdateManyMutationInput: ["id", "name", "description", "address"],
-  ProductCreateInput: ["id", "name", "material", "description", "imageUrl", "price", "supplier", "createdAt"],
-  ProductUpdateInput: ["id", "name", "material", "description", "imageUrl", "price", "supplier", "createdAt"],
+  ProductCreateInput: ["id", "name", "material", "description", "imageUrl", "price", "createdAt", "supplier"],
+  ProductUpdateInput: ["id", "name", "material", "description", "imageUrl", "price", "createdAt", "supplier"],
   ProductCreateManyInput: ["id", "name", "material", "description", "imageUrl", "price", "supplierId", "createdAt"],
   ProductUpdateManyMutationInput: ["id", "name", "material", "description", "imageUrl", "price", "createdAt"],
   StringFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "mode", "not"],
@@ -369,8 +369,8 @@ const inputsInfo = {
   SupplierMaxOrderByAggregateInput: ["id", "name", "description", "address"],
   SupplierMinOrderByAggregateInput: ["id", "name", "description", "address"],
   StringWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "mode", "not", "_count", "_min", "_max"],
-  SupplierRelationFilter: ["is", "isNot"],
   DateTimeFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],
+  SupplierRelationFilter: ["is", "isNot"],
   ProductCountOrderByAggregateInput: ["id", "name", "material", "description", "imageUrl", "price", "supplierId", "createdAt"],
   ProductMaxOrderByAggregateInput: ["id", "name", "material", "description", "imageUrl", "price", "supplierId", "createdAt"],
   ProductMinOrderByAggregateInput: ["id", "name", "material", "description", "imageUrl", "price", "supplierId", "createdAt"],
@@ -379,8 +379,8 @@ const inputsInfo = {
   StringFieldUpdateOperationsInput: ["set"],
   ProductUpdateManyWithoutSupplierNestedInput: ["create", "connectOrCreate", "upsert", "createMany", "set", "disconnect", "delete", "connect", "update", "updateMany", "deleteMany"],
   SupplierCreateNestedOneWithoutProductInput: ["create", "connectOrCreate", "connect"],
-  SupplierUpdateOneRequiredWithoutProductNestedInput: ["create", "connectOrCreate", "upsert", "connect", "update"],
   DateTimeFieldUpdateOperationsInput: ["set"],
+  SupplierUpdateOneRequiredWithoutProductNestedInput: ["create", "connectOrCreate", "upsert", "connect", "update"],
   NestedStringFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "not"],
   NestedStringWithAggregatesFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "contains", "startsWith", "endsWith", "not", "_count", "_min", "_max"],
   NestedIntFilter: ["equals", "in", "notIn", "lt", "lte", "gt", "gte", "not"],

@@ -38,13 +38,13 @@ export class ProductCreateInput {
   })
   price!: string;
 
-  @TypeGraphQL.Field(_type => SupplierCreateNestedOneWithoutProductInput, {
-    nullable: false
-  })
-  supplier!: SupplierCreateNestedOneWithoutProductInput;
-
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
   createdAt?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => SupplierCreateNestedOneWithoutProductInput, {
+    nullable: false
+  })
+  supplier!: SupplierCreateNestedOneWithoutProductInput;
 }

@@ -40,13 +40,13 @@ export class ProductUpdateInput {
   })
   price?: StringFieldUpdateOperationsInput | undefined;
 
-  @TypeGraphQL.Field(_type => SupplierUpdateOneRequiredWithoutProductNestedInput, {
-    nullable: true
-  })
-  supplier?: SupplierUpdateOneRequiredWithoutProductNestedInput | undefined;
-
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
   createdAt?: DateTimeFieldUpdateOperationsInput | undefined;
+
+  @TypeGraphQL.Field(_type => SupplierUpdateOneRequiredWithoutProductNestedInput, {
+    nullable: true
+  })
+  supplier?: SupplierUpdateOneRequiredWithoutProductNestedInput | undefined;
 }

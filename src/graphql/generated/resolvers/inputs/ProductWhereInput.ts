@@ -60,13 +60,13 @@ export class ProductWhereInput {
   })
   supplierId?: StringFilter | undefined;
 
-  @TypeGraphQL.Field(_type => SupplierRelationFilter, {
-    nullable: true
-  })
-  supplier?: SupplierRelationFilter | undefined;
-
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
   createdAt?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => SupplierRelationFilter, {
+    nullable: true
+  })
+  supplier?: SupplierRelationFilter | undefined;
 }

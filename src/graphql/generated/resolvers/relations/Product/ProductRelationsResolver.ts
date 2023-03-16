@@ -11,7 +11,7 @@ export class ProductRelationsResolver {
   })
   async supplier(@TypeGraphQL.Root() product: Product, @TypeGraphQL.Ctx() ctx: any, @TypeGraphQL.Info() info: GraphQLResolveInfo): Promise<Supplier> {
     const { _count } = transformInfoIntoPrismaArgs(info);
-    return getPrismaFromContext(ctx).product.findUnique({
+    return getPrismaFromContext(ctx).product.findUniqueOrThrow({
       where: {
         id: product.id,
       },
