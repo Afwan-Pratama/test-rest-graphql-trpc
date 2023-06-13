@@ -5,8 +5,8 @@ import http from "http";
 import { restRouter } from "./rest";
 //trpc
 import * as trpcExpress from "@trpc/server/adapters/express";
-import { productRouter } from "./trpc/router/products";
 import { trpcRouter } from "./trpc/trpc";
+import { productRouter } from "./trpc/router/products";
 import { createContext } from "./trpc/context";
 //graphql
 import "reflect-metadata";
@@ -16,17 +16,25 @@ import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHt
 import { buildSchema } from "type-graphql";
 import { resolvers } from "./graphql/generated";
 import { prisma } from "./db";
+//measurement
+import { endMeasurement, startMeasurement } from "./measurement";
 
 const app = express();
 
 const httpServer = http.createServer(app);
 
+const appRouter = trpcRouter({
+  product: productRouter,
+});
+
+app.use((req, res, next) => {
+  const start = startMeasurement();
+  console.log(endMeasurement(start));
+  next();
+});
+
 async function main() {
   app.use("/api", restRouter);
-
-  const appRouter = trpcRouter({
-    product: productRouter,
-  });
 
   app.use(
     "/trpc",
@@ -58,5 +66,4 @@ async function main() {
 
   await new Promise(() => httpServer.listen({ port: 4000 }));
 }
-
 main();

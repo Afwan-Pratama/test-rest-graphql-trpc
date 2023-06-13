@@ -22,3 +22,26 @@ restRouter.get("/products/supplier", async (req, res) => {
   });
   res.json(data);
 });
+
+restRouter.get("/products/limit/:limit", async (req, res) => {
+  const data = await prisma.product.findMany({
+    take: Number(req.params.limit),
+  });
+  res.json(data);
+});
+
+restRouter.get("/products/supplier/limit/:limit", async (req, res) => {
+  const data = await prisma.product.findMany({
+    take: Number(req.params.limit),
+    include: {
+      supplier: {
+        select: {
+          name: true,
+          description: true,
+          address: true,
+        },
+      },
+    },
+  });
+  res.json(data);
+});
