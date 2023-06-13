@@ -29,7 +29,8 @@ const appRouter = trpcRouter({
 
 app.use((req, res, next) => {
   const start = startMeasurement();
-  console.log(endMeasurement(start));
+  const totalMeasurement = endMeasurement(start);
+  console.log(totalMeasurement.cpu, "\t", totalMeasurement.memory);
   next();
 });
 

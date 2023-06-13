@@ -1,5 +1,12 @@
+const secNSec2ms = (secNSec: any) => {
+  if (Array.isArray(secNSec)) {
+    return secNSec[0] * 1000 + secNSec[1] / 1000000;
+  }
+  return secNSec / 1000;
+};
+
 export const startMeasurement = () => {
-  const startTime = Date.now();
+  const startTime = process.hrtime();
 
   const startCpu = process.cpuUsage();
 
@@ -10,13 +17,19 @@ export const startMeasurement = () => {
 };
 
 export const endMeasurement = (start: any) => {
-  const cpuUsage = process.cpuUsage(start.cpuUsage).user / 1000;
+  const elapCPU = process.cpuUsage(start.cpuUsage);
+
+  const elapTime = process.hrtime(start.time);
+
+  const elapTimeMs = secNSec2ms(elapTime);
 
   const memoryUsage = process.memoryUsage().heapUsed / 1024 / 1024;
 
   return {
-    cpu: cpuUsage,
-
+    cpu: (
+      100 *
+      (secNSec2ms(elapCPU.user) + secNSec2ms(elapCPU.system) / elapTimeMs)
+    ).toFixed(2),
     memory: memoryUsage.toFixed(2),
   };
 };
