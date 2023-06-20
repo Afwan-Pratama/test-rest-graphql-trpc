@@ -1,22 +1,19 @@
-export const startMeasurement = () => {
-  const startTime = Date.now();
+import { exec } from "child_process";
 
-  const startCpu = process.cpuUsage();
-
-  return {
-    time: startTime,
-    cpuUsage: startCpu,
-  };
-};
-
-export const endMeasurement = (start: any) => {
-  const cpuUsage = process.cpuUsage(start.cpuUsage).user / 1000;
-
-  const memoryUsage = process.memoryUsage().heapUsed / 1024 / 1024;
-
-  return {
-    cpu: cpuUsage,
-
-    memory: memoryUsage.toFixed(2),
-  };
+export const measurement = () => {
+  exec("sh script-ps-node.sh", (error: any, stdout: any, stderr: any) => {
+    if (error) {
+      console.log(`error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(
+      (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
+      "\t",
+      stdout
+    );
+  });
 };

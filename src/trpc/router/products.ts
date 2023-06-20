@@ -18,20 +18,22 @@ export const productRouter = trpcRouter({
       },
     });
   }),
-  getAllRelationWithLimit: publicProcedure.input(z.number()).query(({ input, ctx }) => {
-    return ctx.db.product.findMany({
-      take: input,
-      include: {
-        supplier: {
-          select: {
-            name: true,
-            description: true,
-            address: true,
-          }
-        }
-      }
-    })
-  })
+  getAllRelationWithLimit: publicProcedure
+    .input(z.number())
+    .query(({ input, ctx }) => {
+      return ctx.db.product.findMany({
+        take: input,
+        include: {
+          supplier: {
+            select: {
+              name: true,
+              description: true,
+              address: true,
+            },
+          },
+        },
+      });
+    }),
   getAllWithLimit: publicProcedure.input(z.number()).query(({ input, ctx }) => {
     return ctx.db.product.findMany({
       take: input,
