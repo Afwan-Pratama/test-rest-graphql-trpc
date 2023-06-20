@@ -17,7 +17,7 @@ import { buildSchema } from "type-graphql";
 import { resolvers } from "./graphql/generated";
 import { prisma } from "./db";
 //measurement
-import { endMeasurement, startMeasurement } from "./measurement";
+import { measurement } from "./measurement";
 
 const app = express();
 
@@ -28,9 +28,7 @@ const appRouter = trpcRouter({
 });
 
 app.use((req, res, next) => {
-  const start = startMeasurement();
-  const totalMeasurement = endMeasurement(start);
-  console.log(totalMeasurement.cpu, "\t", totalMeasurement.memory);
+  measurement();
   next();
 });
 

@@ -1,35 +1,19 @@
-const secNSec2ms = (secNSec: any) => {
-  if (Array.isArray(secNSec)) {
-    return secNSec[0] * 1000 + secNSec[1] / 1000000;
-  }
-  return secNSec / 1000;
-};
+import { exec } from "child_process";
 
-export const startMeasurement = () => {
-  const startTime = process.hrtime();
-
-  const startCpu = process.cpuUsage();
-
-  return {
-    time: startTime,
-    cpuUsage: startCpu,
-  };
-};
-
-export const endMeasurement = (start: any) => {
-  const elapCPU = process.cpuUsage(start.cpuUsage);
-
-  const elapTime = process.hrtime(start.time);
-
-  const elapTimeMs = secNSec2ms(elapTime);
-
-  const memoryUsage = process.memoryUsage().heapUsed / 1024 / 1024;
-
-  return {
-    cpu: (
-      100 *
-      (secNSec2ms(elapCPU.user) + secNSec2ms(elapCPU.system) / elapTimeMs)
-    ).toFixed(2),
-    memory: memoryUsage.toFixed(2),
-  };
+export const measurement = () => {
+  exec("sh script-ps-node.sh", (error: any, stdout: any, stderr: any) => {
+    if (error) {
+      console.log(`error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(
+      (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
+      "\t",
+      stdout
+    );
+  });
 };
